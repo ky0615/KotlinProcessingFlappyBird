@@ -1,7 +1,7 @@
-package ws.temp.quizzly.dao
+package moe.linux.akeru.dao
 
-import ws.temp.quizzly.exception.BaseUserException
-import ws.temp.quizzly.exception.UserException
+import moe.linux.akeru.exception.BaseUserException
+import moe.linux.akeru.exception.UserException
 
 data class ErrorResponse(
         val errors: List<Error>

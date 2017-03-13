@@ -1,4 +1,4 @@
-package ws.temp.quizzly.dao
+package moe.linux.akeru.dao
 
 enum class EnvParameter(val env: String) {
     DEVELOPMENT("development"),
@@ -6,7 +6,7 @@ enum class EnvParameter(val env: String) {
 
     companion object {
         fun parseOf(name: String): EnvParameter {
-            return EnvParameter.values()
+            return values()
                     .firstOrNull { it.env == name } ?: DEVELOPMENT
         }
     }

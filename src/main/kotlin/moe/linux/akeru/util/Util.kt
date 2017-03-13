@@ -1,6 +1,6 @@
-package ws.temp.quizzly.util
+package moe.linux.akeru.util
 
-import ws.temp.quizzly.toHexString
+import moe.linux.akeru.toHexString
 
 fun createToken(): String {
     return System.nanoTime().toHexString()

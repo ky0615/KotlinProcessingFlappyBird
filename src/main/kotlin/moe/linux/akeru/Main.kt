@@ -1,4 +1,4 @@
-package ws.temp.quizzly
+package moe.linux.akeru
 
 
 import com.fasterxml.jackson.databind.ObjectMapper

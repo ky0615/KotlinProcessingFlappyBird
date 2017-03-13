@@ -1,4 +1,4 @@
-package ws.temp.quizzly.di
+package moe.linux.akeru.di
 
 import com.github.salomonbrys.kodein.Kodein
 

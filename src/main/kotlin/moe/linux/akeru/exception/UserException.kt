@@ -1,4 +1,4 @@
-package ws.temp.quizzly.exception
+package moe.linux.akeru.exception
 
 abstract class BaseUserException(override val message: String, open val code: CODE) : IllegalArgumentException(message) {
 

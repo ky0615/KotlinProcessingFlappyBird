@@ -1,4 +1,4 @@
-package ws.temp.quizzly
+package moe.linux.akeru
 
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.KodeinAware
@@ -9,13 +9,14 @@ import org.wasabifx.wasabi.app.AppConfiguration
 import org.wasabifx.wasabi.app.AppServer
 import org.wasabifx.wasabi.deserializers.JsonDeserializer
 import org.wasabifx.wasabi.protocol.http.StatusCodes
-import ws.temp.quizzly.dao.Configure
-import ws.temp.quizzly.dao.EnvParameter
-import ws.temp.quizzly.dao.ErrorResponse
-import ws.temp.quizzly.di.AppModule
-import ws.temp.quizzly.exception.UserException
-import ws.temp.quizzly.exception.UserNotFoundException
-import ws.temp.quizzly.util.RawDeserializer
+import moe.linux.akeru.dao.Configure
+import moe.linux.akeru.dao.EnvParameter
+import moe.linux.akeru.dao.ErrorResponse
+import moe.linux.akeru.di.AppModule
+
+import moe.linux.akeru.exception.UserException
+import moe.linux.akeru.exception.UserNotFoundException
+import moe.linux.akeru.util.RawDeserializer
 
 class Application : KodeinAware {
 

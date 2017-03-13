@@ -1,4 +1,4 @@
-package ws.temp.quizzly.di
+package moe.linux.akeru.di
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -8,11 +8,11 @@ import com.github.salomonbrys.kodein.provider
 import com.github.salomonbrys.kodein.singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ws.temp.quizzly.dao.Command
-import ws.temp.quizzly.dao.CommandName
-import ws.temp.quizzly.dao.Configure
-import ws.temp.quizzly.dao.EnvParameter
-import ws.temp.quizzly.normalizeText
+import moe.linux.akeru.dao.Command
+import moe.linux.akeru.dao.CommandName
+import moe.linux.akeru.dao.Configure
+import moe.linux.akeru.dao.EnvParameter
+import moe.linux.akeru.normalizeText
 import java.io.File
 import java.util.*
 

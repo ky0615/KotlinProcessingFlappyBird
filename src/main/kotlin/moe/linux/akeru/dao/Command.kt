@@ -1,4 +1,4 @@
-package ws.temp.quizzly.dao
+package moe.linux.akeru.dao
 
 data class Command(
         var name: CommandName = CommandName.OTHER,

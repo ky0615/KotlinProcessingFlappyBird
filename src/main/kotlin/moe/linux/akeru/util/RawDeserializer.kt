@@ -1,4 +1,4 @@
-package ws.temp.quizzly.util
+package moe.linux.akeru.util
 
 import org.wasabifx.wasabi.deserializers.Deserializer
 import java.util.*
