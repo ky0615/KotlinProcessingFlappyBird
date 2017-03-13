@@ -1,0 +1,62 @@
+group 'akeru'
+version '1.0'
+
+apply plugin: 'application'
+mainClassName = 'moe.linux.akeru.MainKt'
+
+buildscript {
+    ext.kotlin_version = '1.1.0'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'http://repository.jetbrains.com/all' }
+    maven { url "http://dl.bintray.com/wasabifx/wasabifx" }
+
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    // ICU4J
+    compile 'com.ibm.icu:icu4j:58.2'
+
+    compile 'org.wasabifx:wasabi:0.3.120'
+
+    // RxJava2
+    compile 'io.reactivex.rxjava2:rxjava:2.0.0'
+
+    // Kodein
+    compile 'com.github.salomonbrys.kodein:kodein-android:3.0.0'
+
+    // Line bot
+    compile 'com.linecorp.bot:line-bot-model:1.5.0'
+    compile 'com.linecorp.bot:line-bot-api-client:1.5.0'
+
+    // Firebase
+    compile 'com.google.firebase:firebase-server-sdk:[3.0.0,)'
+
+    // MongoDB
+    compile 'org.mongodb.morphia:morphia:1.3.1'
+
+    // Redis
+    compile 'redis.clients:jedis:2.9.0'
+
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
