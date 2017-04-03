@@ -1,4 +1,4 @@
-package moe.linux.akeru.di
+package moe.linux.hello.di
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -8,11 +8,11 @@ import com.github.salomonbrys.kodein.provider
 import com.github.salomonbrys.kodein.singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import moe.linux.akeru.dao.Command
-import moe.linux.akeru.dao.CommandName
-import moe.linux.akeru.dao.Configure
-import moe.linux.akeru.dao.EnvParameter
-import moe.linux.akeru.normalizeText
+import moe.linux.hello.dao.Command
+import moe.linux.hello.dao.CommandName
+import moe.linux.hello.dao.Configure
+import moe.linux.hello.dao.EnvParameter
+import moe.linux.hello.normalizeText
 import java.io.File
 import java.util.*
 

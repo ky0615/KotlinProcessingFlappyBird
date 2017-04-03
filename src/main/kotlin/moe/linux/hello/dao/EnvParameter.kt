@@ -1,4 +1,4 @@
-package moe.linux.akeru.dao
+package moe.linux.hello.dao
 
 enum class EnvParameter(val env: String) {
     DEVELOPMENT("development"),

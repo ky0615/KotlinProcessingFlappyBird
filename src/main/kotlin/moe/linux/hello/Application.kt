@@ -1,24 +1,24 @@
-package moe.linux.akeru
+package moe.linux.hello
 
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.KodeinAware
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.lazy
+import moe.linux.hello.dao.Configure
+import moe.linux.hello.dao.EnvParameter
+import moe.linux.hello.dao.ErrorResponse
+import moe.linux.hello.di.AppModule
+import moe.linux.hello.exception.UserException
+import moe.linux.hello.exception.UserNotFoundException
+import moe.linux.hello.util.RawDeserializer
 import org.slf4j.Logger
 import org.wasabifx.wasabi.app.AppConfiguration
 import org.wasabifx.wasabi.app.AppServer
 import org.wasabifx.wasabi.deserializers.JsonDeserializer
 import org.wasabifx.wasabi.protocol.http.StatusCodes
-import moe.linux.akeru.dao.Configure
-import moe.linux.akeru.dao.EnvParameter
-import moe.linux.akeru.dao.ErrorResponse
-import moe.linux.akeru.di.AppModule
+import processing.core.PApplet
 
-import moe.linux.akeru.exception.UserException
-import moe.linux.akeru.exception.UserNotFoundException
-import moe.linux.akeru.util.RawDeserializer
-
-class Application : KodeinAware {
+class Application : KodeinAware, PApplet() {
 
     override val kodein: Kodein by Kodein.lazy {
         import(AppModule())

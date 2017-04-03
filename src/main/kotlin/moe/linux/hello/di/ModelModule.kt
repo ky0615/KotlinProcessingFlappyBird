@@ -1,4 +1,4 @@
-package moe.linux.akeru.di
+package moe.linux.hello.di
 
 import com.github.salomonbrys.kodein.Kodein
 

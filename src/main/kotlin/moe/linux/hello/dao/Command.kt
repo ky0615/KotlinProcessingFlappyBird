@@ -1,4 +1,4 @@
-package moe.linux.akeru.dao
+package moe.linux.hello.dao
 
 data class Command(
         var name: CommandName = CommandName.OTHER,

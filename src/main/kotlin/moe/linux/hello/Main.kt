@@ -1,4 +1,4 @@
-package moe.linux.akeru
+package moe.linux.hello
 
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -10,8 +10,8 @@ import org.wasabifx.wasabi.protocol.http.Response
 
 
 fun main(args: Array<String>) {
+    HelloApplet.main()
     Application()
-
     // todo: generate configure file
 //    File("./").list().forEach { logger.info(it) }
 }

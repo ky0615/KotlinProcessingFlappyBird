@@ -1,5 +1,8 @@
-package moe.linux.akeru.dao
+package moe.linux.hello.dao
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Configure(
         val prefix: String = "/api",
 

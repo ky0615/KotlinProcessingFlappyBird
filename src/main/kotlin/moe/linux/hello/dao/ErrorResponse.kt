@@ -1,7 +1,7 @@
-package moe.linux.akeru.dao
+package moe.linux.hello.dao
 
-import moe.linux.akeru.exception.BaseUserException
-import moe.linux.akeru.exception.UserException
+import moe.linux.hello.exception.BaseUserException
+import moe.linux.hello.exception.UserException
 
 data class ErrorResponse(
         val errors: List<Error>

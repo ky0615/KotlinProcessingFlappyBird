@@ -1,4 +1,4 @@
-package moe.linux.akeru.util
+package moe.linux.hello.util
 
 import org.wasabifx.wasabi.deserializers.Deserializer
 import java.util.*

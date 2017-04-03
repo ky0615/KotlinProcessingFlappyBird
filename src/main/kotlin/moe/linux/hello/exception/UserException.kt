@@ -1,4 +1,4 @@
-package moe.linux.akeru.exception
+package moe.linux.hello.exception
 
 abstract class BaseUserException(override val message: String, open val code: CODE) : IllegalArgumentException(message) {
 

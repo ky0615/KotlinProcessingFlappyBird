@@ -1,6 +1,6 @@
-package moe.linux.akeru.util
+package moe.linux.hello.util
 
-import moe.linux.akeru.toHexString
+import moe.linux.hello.toHexString
 
 fun createToken(): String {
     return System.nanoTime().toHexString()
