@@ -42,8 +42,12 @@ dependencies {
     compile 'com.github.salomonbrys.kodein:kodein-android:3.0.0'
 
     compile 'org.processing:core:3.2.3'
-    compile 'org.jogamp.jogl:jogl-all:2.0.2'
 
+    compile "org.jogamp.gluegen:gluegen-rt:2.3.2"
+    compile 'org.jogamp.jogl:jogl-all:2.3.2'
+
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-macosx-universal"
+    runtime "org.jogamp.jogl:jogl-all:2.3.2:natives-macosx-universal"
 }
 
 sourceSets {

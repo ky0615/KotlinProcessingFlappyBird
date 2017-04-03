@@ -8,7 +8,6 @@ import moe.linux.hello.dao.Configure
 import moe.linux.hello.di.AppModule
 import org.slf4j.Logger
 import processing.core.PApplet
-import processing.core.PConstants
 
 class HelloApplet : KodeinAware, PApplet() {
     override val kodein: Kodein by Kodein.lazy {
@@ -19,6 +18,10 @@ class HelloApplet : KodeinAware, PApplet() {
 
     private val config: Configure = kodein.instance()
 
+    val text = TextA()
+
+    var color = 0
+
     companion object {
         fun main() {
             println("start processing")
@@ -27,27 +30,23 @@ class HelloApplet : KodeinAware, PApplet() {
     }
 
     override fun settings() {
-        super.settings()
         logger.info("setting")
-        size(400, 800, PConstants.P3D)
-    }
-
-    override fun setup() {
-        super.setup()
-        logger.info("setup")
+        size(400, 800)
     }
 
     override fun draw() {
-        super.draw()
-        logger.info("draw")
         background(0f, 128f, 0f)
-        translate(width/2f, height/2f, -150f)
-        (frameCount/100f).also {
-            rotateX(it)
-            rotateY(it)
-            box(200f)
-        }
+        if (color > 255)
+            color = 0
 
+        apply(text.paint(color++))
+    }
+}
 
+class TextA {
+    fun paint(color: Int): PApplet.() -> Unit = {
+        fill(color)
+        textSize(24f)
+        text("hogeほげホゲ歩下", 10f, 200f)
     }
 }
