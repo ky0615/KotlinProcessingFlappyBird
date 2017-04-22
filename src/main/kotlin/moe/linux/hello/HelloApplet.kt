@@ -8,8 +8,10 @@ import moe.linux.hello.dao.Configure
 import moe.linux.hello.di.AppModule
 import org.slf4j.Logger
 import processing.core.PApplet
+import processing.core.PConstants
+import processing.core.PFont
 
-class HelloApplet : KodeinAware, PApplet() {
+open class HelloApplet : KodeinAware, PApplet() {
     override val kodein: Kodein by Kodein.lazy {
         import(AppModule())
     }
@@ -18,7 +20,9 @@ class HelloApplet : KodeinAware, PApplet() {
 
     private val config: Configure = kodein.instance()
 
-    val text = TextA()
+    val font: PFont by lazy { createFont("Baskerville-48", 24f, true) }
+
+    var text: TextBase = TextA()
 
     var color = 0
 
@@ -26,7 +30,16 @@ class HelloApplet : KodeinAware, PApplet() {
         fun main() {
             println("start processing")
             PApplet.main(HelloApplet::class.java)
+            PApplet.main(HelloApplet2::class.java)
         }
+    }
+
+    override fun setup() {
+        super.setup()
+        frameRate(60f)
+        logger.info("load font: ${font.name}")
+        textFont(font)
+        frame.isResizable = true
     }
 
     override fun settings() {
@@ -43,10 +56,45 @@ class HelloApplet : KodeinAware, PApplet() {
     }
 }
 
-class TextA {
-    fun paint(color: Int): PApplet.() -> Unit = {
+interface TextBase {
+    fun paint(color: Int): PApplet.() -> Unit;
+}
+
+class TextA : TextBase {
+    override fun paint(color: Int): PApplet.() -> Unit = {
         fill(color)
+        textMode(PConstants.SHAPE)
         textSize(24f)
-        text("hogeほげホゲ歩下", 10f, 200f)
+        textWidth("")
+        textAlign(PConstants.CENTER, PConstants.CENTER)
+        text("hogeほげホゲ歩下", width / 2f, height / 2f)
+    }
+}
+
+class TextB : TextBase {
+    override fun paint(color: Int): PApplet.() -> Unit = {
+        fill(color)
+        textMode(PConstants.SHAPE)
+        textSize(24f)
+        textWidth("")
+        textAlign(PConstants.CENTER, PConstants.CENTER)
+        text("22222", width / 2f, height / 2f)
+    }
+
+}
+
+class HelloApplet2 : HelloApplet() {
+    override fun setup() {
+        super.setup()
+        text = TextB()
+
+    }
+
+    override fun settings() {
+        super.settings()
+    }
+
+    override fun draw() {
+        super.draw()
     }
 }
