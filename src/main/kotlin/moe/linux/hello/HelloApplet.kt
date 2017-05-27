@@ -36,7 +36,7 @@ open class HelloApplet : KodeinAware, PApplet() {
         frameRate(60f)
         logger.info("load font: ${font.name}")
         textFont(font)
-        frame.isResizable = true
+        surface.setResizable(true)
     }
 
     override fun settings() {
