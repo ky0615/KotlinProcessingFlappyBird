@@ -1,6 +1,0 @@
-{
-  "channelSecret" : "chanell_secret_is_here",
-  "channelAccessToken" : "access_token_is_here",
-  "prefix" : "/api",
-  "port" : 4201
-}
