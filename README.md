@@ -8,3 +8,5 @@ cp development.json.sample development.json
 ./gradlew run
 ```
 
+## License
+MIT
