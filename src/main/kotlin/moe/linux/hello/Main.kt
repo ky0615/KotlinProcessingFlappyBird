@@ -4,10 +4,11 @@ package moe.linux.hello
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import org.slf4j.Logger
+import processing.core.PApplet
 
 
 fun main(args: Array<String>) {
-    HelloApplet.main()
+    PApplet.main(HelloApplet3::class.java)
 }
 
 fun Logger.toJson(obj: Any) {
