@@ -1,11 +1,6 @@
 package moe.linux.hello.util
 
-import moe.linux.hello.toHexString
 import processing.core.PApplet
-
-fun createToken(): String {
-    return System.nanoTime().toHexString()
-}
 
 fun PApplet.fill(r: Int, g: Int, b: Int) = this.fill(r.toFloat(), g.toFloat(), b.toFloat())
 

@@ -1,30 +1,16 @@
 package moe.linux.hello
 
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.KodeinAware
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.lazy
-import moe.linux.hello.di.AppModule
 import moe.linux.hello.util.fill
 import moe.linux.hello.util.rect
 import moe.linux.hello.util.text
 import moe.linux.hello.util.textSize
-import org.slf4j.Logger
 import processing.core.PApplet
-
-open class HelloApplet : KodeinAware, PApplet() {
-    override val kodein: Kodein by Kodein.lazy {
-        import(AppModule())
-    }
-
-    val logger: Logger = kodein.instance()
-}
 
 interface ClassBase {
     fun update(): PApplet.() -> Unit
 }
 
-class HelloApplet3 : HelloApplet() {
+class FlappyBird : PApplet() {
     var x = 0.toFloat()
     var y = 0.toFloat()
     var h = 0.toFloat()
@@ -185,23 +171,25 @@ class HelloApplet3 : HelloApplet() {
         text("highscore: ${highscore}", 10, 400)
         end = true
     }
+}
 
-    class Bar : ClassBase {
-        var gameOverListener = {}
+class Bar : ClassBase {
+    var gameOverListener = {}
 
-        var holeH = 0F
-        var holeD = 0F
+    var holeH = 0
+    var holeD = 0
 
-        override fun update(): PApplet.() -> Unit = {
+    var move = 0
 
-        }
+    override fun update(): PApplet.() -> Unit = {
 
-        /**
-         * 穴の大きさを定義する
-         */
-        fun randHole(): PApplet.() -> Unit = {
-            holeH = random(0F, 500F)
-            holeD = holeH + 180
-        }
+    }
+
+    /**
+     * 穴の大きさを定義する
+     */
+    fun randHole(): PApplet.() -> Unit = {
+        holeH = random(0F, 500F).toInt()
+        holeD = holeH + 180
     }
 }

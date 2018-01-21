@@ -30,17 +30,6 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    // Logging library
-    compile "org.slf4j:slf4j-api:1.7.5"
-    compile "org.slf4j:slf4j-simple:1.7.5"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
-
-    // RxJava2
-    compile 'io.reactivex.rxjava2:rxjava:2.0.0'
-
-    // Kodein
-    compile 'com.github.salomonbrys.kodein:kodein-android:3.0.0'
-
     compile 'org.processing:core:3.2.3'
 
     compile "org.jogamp.gluegen:gluegen-rt:2.3.2"
