@@ -5,7 +5,7 @@ apply plugin: 'application'
 mainClassName = 'moe.linux.hello.MainKt'
 
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    ext.kotlin_version = '1.2.10'
 
     repositories {
         mavenCentral()
@@ -48,6 +48,8 @@ dependencies {
 
     runtime "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-macosx-universal"
     runtime "org.jogamp.jogl:jogl-all:2.3.2:natives-macosx-universal"
+
+    compile files("./libs/boxwrap2d.jar")
 }
 
 sourceSets {
