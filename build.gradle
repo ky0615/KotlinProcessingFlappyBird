@@ -32,6 +32,8 @@ dependencies {
 
     compile 'org.processing:core:3.2.3'
 
+    compile 'com.google.firebase:firebase-admin:5.5.0'
+
     compile "org.jogamp.gluegen:gluegen-rt:2.3.2"
     compile 'org.jogamp.jogl:jogl-all:2.3.2'
 

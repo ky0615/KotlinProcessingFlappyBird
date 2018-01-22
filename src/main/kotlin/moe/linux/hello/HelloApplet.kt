@@ -1,10 +1,15 @@
 package moe.linux.hello
 
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.auth.FirebaseCredentials
+import com.google.firebase.database.FirebaseDatabase
 import moe.linux.hello.util.fill
 import moe.linux.hello.util.rect
 import moe.linux.hello.util.text
 import moe.linux.hello.util.textSize
 import processing.core.PApplet
+import java.util.*
 
 val SPACE_OFFSET = 250
 val BAR_LENGTH = 3
@@ -12,6 +17,7 @@ val BAR_LENGTH = 3
 class FlappyBird : PApplet() {
 
     val game = Game()
+    val ranking = Ranking()
 
     var page = Page.GAME
 
@@ -22,6 +28,7 @@ class FlappyBird : PApplet() {
         background(0)
 
         game.setup(this)
+        firebaseInit()
     }
 
     override fun settings() {
@@ -30,7 +37,15 @@ class FlappyBird : PApplet() {
     }
 
     override fun draw() {
-        game.update(this)
+        when (page) {
+            Page.GAME -> {
+                game.update(this)
+            }
+
+            Page.RANKING -> {
+                ranking.update(this)
+            }
+        }
     }
 
     override fun mousePressed() {
@@ -59,15 +74,20 @@ class FlappyBird : PApplet() {
 
         fun update(app: FlappyBird) = with(app) {
             if (keyPressed && !keyPressedCache) {
-                kotlin.io.println("keyPressed: $key")
+//                kotlin.io.println("keyPressed: $key")
                 when (key) {
                     'r' -> reset()
                     'p' -> setPause()
                     'k' -> exit()
+                    'g' -> {
+                        if (end) {
+                            app.page = Page.RANKING
+                        }
+                    }
                     ' ' -> {
-                        if (end)
+                        if (end) {
                             reset()
-                        else
+                        } else
                             jump()
                     }
                 }
@@ -92,7 +112,7 @@ class FlappyBird : PApplet() {
             if (y > 40) y = 40F
             if (y < -30) y = -30F
 
-            if (score >= highscore) highscore = score
+//            if (score >= highscore) highscore = score
 
             fill(255)
             text(score.toString(), 10, 50)
@@ -113,12 +133,19 @@ class FlappyBird : PApplet() {
         }
 
         fun gameOver(app: FlappyBird) = with(app) {
+            app.ranking.score = score
             textSize(90)
             fill(255, 0, 0)
             text("GameOver", 10, 300)
 
             textSize(50)
-            text("highscore: ${highscore}", 10, 400)
+            text("highscore: ${if (highscore < score) score else highscore}", 10, 400)
+
+            if (highscore < score)
+                text("Press 'G' key,\nregistration\nthe ranking", 10, 490)
+
+            if (score >= highscore) highscore = score
+
             end = true
         }
 
@@ -155,8 +182,8 @@ class FlappyBird : PApplet() {
 
                 move = if (move == offset + 225) SPACE_OFFSET * num * (BAR_LENGTH - 2) else move + 1
 
-                kotlin.io.println("num: $num move: $move")
-                if (num == BAR_LENGTH - 1) kotlin.io.println("")
+//                kotlin.io.println("num: $num move: $move")
+//                if (num == BAR_LENGTH - 1) kotlin.io.println("")
             }
 
             /**
@@ -173,9 +200,50 @@ class FlappyBird : PApplet() {
         }
     }
 
+    class Ranking {
+        var inputNow = false
+        var score = 0
+        fun update(app: FlappyBird) = with(app) {
+            if (!inputNow) {
+                inputNow = true
+                println("ハイスコアを登録するために名前を入力してください\n> ")
+                val scanner = Scanner(System.`in`)
+                val name = scanner.next()
+                ranking(Score(name, score))
+                println("your name: $name, score: ${score}")
+                app.page = Page.GAME
+                app.game.reset()
+                inputNow = false
+            }
+        }
+    }
+
     enum class Page {
         GAME,
         GAME_OVER,
         RANKING,
     }
 }
+
+
+fun firebaseInit() {
+    val resource = ClassLoader.getSystemResourceAsStream("serviceAccountKey.json")
+    val options = FirebaseOptions.Builder()
+            .setCredential(FirebaseCredentials.fromCertificate(resource))
+            .setDatabaseUrl("https://api-project-488342428656.firebaseio.com")
+            .build()
+
+    FirebaseApp.initializeApp(options)
+}
+
+fun ranking(score: Score): Unit {
+    FirebaseDatabase.getInstance()
+            .getReference("/flappybird/ranking")
+            .push()
+            .setValueAsync(score)
+    println("data pushed ")
+
+}
+
+
+data class Score(val name: String, val score: Int, val data: Long = Date().time)

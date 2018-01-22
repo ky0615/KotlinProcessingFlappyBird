@@ -270,3 +270,4 @@ gradle-app.setting
 
 ### Project File ###
 development.json
+serviceAccountKey.json
