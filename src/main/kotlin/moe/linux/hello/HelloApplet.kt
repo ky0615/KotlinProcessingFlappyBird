@@ -6,37 +6,22 @@ import moe.linux.hello.util.text
 import moe.linux.hello.util.textSize
 import processing.core.PApplet
 
-interface ClassBase {
-    fun update(): PApplet.() -> Unit
-}
+val SPACE_OFFSET = 250
+val BAR_LENGTH = 3
 
 class FlappyBird : PApplet() {
-    var x = 0.toFloat()
-    var y = 0.toFloat()
-    var h = 0.toFloat()
 
-    var move1 = 0
-    var move2 = 0
-    var move3 = 0
+    val game = Game()
 
-    var end = false
-    var score = 0
-    var highscore = 0
-
-    var aa = 0.toFloat()
-    var ab = 0.toFloat()
-    var ba = 0.toFloat()
-    var bb = 0.toFloat()
-    var ca = 0.toFloat()
-    var cb = 0.toFloat()
-
-    var keyPressedCache = false
+    var page = Page.GAME
 
     override fun setup() {
         super.setup()
         surface.setResizable(true)
         frameRate(60f)
         background(0)
+
+        game.setup(this)
     }
 
     override fun settings() {
@@ -45,151 +30,152 @@ class FlappyBird : PApplet() {
     }
 
     override fun draw() {
-        if (keyPressed && !keyPressedCache) {
-            kotlin.io.println("keyPressed: $key")
-            when (key) {
-                'r' -> reset()
-                ' ' -> {
-                    if (end)
-                        reset()
-                    else
-                        jump()
-                }
-            }
-        }
-        keyPressedCache = keyPressed
-
-        if (end) return
-
-        background(0)
-        textSize(50)
-
-        // draw myself
-        fill(0, 0, 255)
-        rect(250, (height / 2 + h).toInt(), 40, 40)
-
-        if (move1 == 1) {
-            aa = random(0F, 500F)
-            ab = aa + 180
-        }
-
-        fill(255)
-        fill(0, 0, 255)
-        rect(500 - move1, 0, 75, aa.toInt())
-        rect(500 - move1, ab.toInt(), 75, height)
-
-        if (500 - move1 in 166..289)
-            if (height / 2 + h < aa || height / 2 + h > ab - 40)
-                gameOver()
-
-        move1 = if (move1 == 725) 0 else move1 + 1
-
-        if (move1 == 250 || move2 == 500) score++
-
-        if (move2 == 1) {
-            ba = random(0F, 500F)
-            bb = ba + 180
-        }
-
-        fill(255)
-        fill(0, 255, 0)
-        rect(750 - move2, 0, 75, ba.toInt())
-        rect(750 - move2, bb.toInt(), 75, height)
-
-        if (750 - move2 in 166..289)
-            if (height / 2 + h < ba || height / 2 + h > bb - 40)
-                gameOver()
-
-        if (move2 == 975) {
-            move2 = 250
-            ba = random(0F, 500F)
-            bb = ba + 180
-        }
-        move2++
-
-        if (move2 == 750) score++
-
-        if (move3 == 3) {
-            ca = random(0F, 500F)
-            cb = ca + 180
-        }
-
-        fill(255)
-        fill(255, 0, 0)
-        rect(1000 - move3, 0, 75, ca.toInt())
-        rect(1000 - move3, cb.toInt(), 75, height)
-
-        if (1000 - move3 in 166..289)
-            if (height / 2 + h < ca || height / 2 + h > cb - 40)
-                gameOver()
-
-        if (move3 == 1225) {
-            move3 = 500
-            ca = random(0F, 500F)
-            cb = ca + 180
-        }
-        move3++
-
-        x += y
-        if (y < 30) y++
-        h = x / 4
-        if (y > 40) y = 40F
-        if (y < -30) y = -30F
-
-        if (score >= highscore) highscore = score
-
-        fill(255)
-        text(score.toString(), 10, 50)
+        game.update(this)
     }
 
     override fun mousePressed() {
         super.mousePressed()
-        jump()
+        game.jump()
     }
 
-    fun jump() {
-        y -= 50
+    class Game {
+        var x = 0F
+        var y = 0F
+        var h = 0F
+
+        var end = false
+        var isPause = false
+
+        var score = 0
+        var highscore = 0
+
+        var keyPressedCache = false
+
+        lateinit var bar: List<Game.Bar>
+
+        fun setup(app: FlappyBird) = with(app) {
+            bar = (0 until BAR_LENGTH).map { Bar(it, { score++ }, { gameOver(this) }) }
+        }
+
+        fun update(app: FlappyBird) = with(app) {
+            if (keyPressed && !keyPressedCache) {
+                kotlin.io.println("keyPressed: $key")
+                when (key) {
+                    'r' -> reset()
+                    'p' -> setPause()
+                    'k' -> exit()
+                    ' ' -> {
+                        if (end)
+                            reset()
+                        else
+                            jump()
+                    }
+                }
+            }
+            keyPressedCache = keyPressed
+
+            if (end || isPause) return
+
+            background(0)
+            textSize(50)
+
+            // draw myself
+            fill(0, 0, 255)
+            rect(250, (height / 2 + h).toInt(), 40, 40)
+
+            fill(255)
+            bar.forEach { it.update(this, h) }
+
+            x += y
+            if (y < 30) y++
+            h = x / 4
+            if (y > 40) y = 40F
+            if (y < -30) y = -30F
+
+            if (score >= highscore) highscore = score
+
+            fill(255)
+            text(score.toString(), 10, 50)
+        }
+
+        fun jump() {
+            y -= 50
+        }
+
+        fun reset() {
+            x = 0F
+            y = 0F
+            h = 0F
+            end = false
+            score = 0
+
+            bar.forEach { it.reset() }
+        }
+
+        fun gameOver(app: FlappyBird) = with(app) {
+            textSize(90)
+            fill(255, 0, 0)
+            text("GameOver", 10, 300)
+
+            textSize(50)
+            text("highscore: ${highscore}", 10, 400)
+            end = true
+        }
+
+        fun setPause() {
+            isPause = !isPause
+        }
+
+        class Bar(val num: Int = 0, val addScoreListener: () -> Unit = {}, val gameOverListener: () -> Unit = {}) {
+            val offset = 250 * (num + 2)
+
+            var holeH = 0
+            var holeD = 0
+
+            var move = 0
+
+            val coodinate: Int
+                get() = offset - move
+
+            fun update(app: PApplet, h: Float) = with(app) {
+                if (move == 1) randHole(this)
+
+                val hx = height / 2 + h
+
+                fill(0, 0, 255)
+                rect(coodinate, 0, 75, holeH)
+                rect(coodinate, holeD, 75, height)
+
+                if (coodinate in 166..289)
+                    if (hx < holeH || hx > holeD - 40)
+                        gameOverListener()
+
+                if (move == SPACE_OFFSET * (num + 1))
+                    addScoreListener()
+
+                move = if (move == offset + 225) SPACE_OFFSET * num * (BAR_LENGTH - 2) else move + 1
+
+                kotlin.io.println("num: $num move: $move")
+                if (num == BAR_LENGTH - 1) kotlin.io.println("")
+            }
+
+            /**
+             * 穴の大きさを定義する
+             */
+            private fun randHole(app: PApplet) = with(app) {
+                holeH = random(0F, 500F).toInt()
+                holeD = holeH + 180
+            }
+
+            fun reset() {
+                move = 0
+            }
+        }
     }
 
-    fun reset() {
-        x = 0F
-        y = 0F
-        h = 0F
-        move1 = 0
-        move2 = 0
-        move3 = 0
-        end = false
-        score = 0
-    }
-
-    fun gameOver() {
-        textSize(90)
-        fill(255, 0, 0)
-        text("GameOver", 10, 300)
-
-        textSize(50)
-        text("highscore: ${highscore}", 10, 400)
-        end = true
-    }
-}
-
-class Bar : ClassBase {
-    var gameOverListener = {}
-
-    var holeH = 0
-    var holeD = 0
-
-    var move = 0
-
-    override fun update(): PApplet.() -> Unit = {
-
-    }
-
-    /**
-     * 穴の大きさを定義する
-     */
-    fun randHole(): PApplet.() -> Unit = {
-        holeH = random(0F, 500F).toInt()
-        holeD = holeH + 180
+    enum class Page {
+        GAME,
+        GAME_OVER,
+        RANKING,
     }
 }
